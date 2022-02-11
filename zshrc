@@ -50,7 +50,7 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH=$HOME/bin:/usr/local/bin:$PATH:/share/CACHEDEV1_DATA/.qpkg/container-station/bin:/opt/sbin:/opt/bin
+export PATH=$HOME/dotfiles/bin:/usr/local/bin:$PATH:/share/CACHEDEV1_DATA/.qpkg/container-station/bin:/opt/sbin:/opt/bin
 
 # export MANPATH="/usr/local/man:$MANPATH"
 

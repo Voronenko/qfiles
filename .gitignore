@@ -1,3 +1,4 @@
 .idea
 .vscode
 oh-my-zsh
+bin/fzf

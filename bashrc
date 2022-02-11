@@ -19,6 +19,7 @@ $HOME/dotfiles/bin:\
 # try to source main entware profile (git, nano, etc)
 #source /opt/etc/profile
 
+COLORTERM=no; case ${TERM:-dummy} in linux*|con80*|con132*|console|xterm*|vt*|screen*|putty|Eterm|dtterm|ansi|rxvt|gnome*|*color*) COLORTERM=yes; ;; esac; export COLORTERM
 export TERM=xterm-color
 export USER=`id -un`
 export LOGNAME=$USER

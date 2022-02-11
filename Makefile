@@ -25,8 +25,9 @@ zsh-fzf:
 	mkdir -p ~/.oh-my-zsh/custom/plugins/fzf-zsh
 	cp ~/dotfiles/helpers/fzf-zsh.plugin.zsh ~/.oh-my-zsh/custom/plugins/fzf-zsh
 
-setup: deps oh-my-zsh
-	init_simple.sh
+setup:  oh-my-zsh
+	echo "Ensure you've installed deps - /opt/bin/opkg install nano git zsh make"
+	./init_simple.sh
 
 fzf: install-console-fzf zsh-fzf-repo zsh-fzf
 	echo "Complete"

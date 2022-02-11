@@ -8,7 +8,7 @@
 preferred_shell=${1-DEFAULT}
 dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
-files="bashrc selected_editor vimrc bashprofile profile"    # list of files/folders to symlink in homedir
+files="bashrc selected_editor vimrc bashprofile profile zshrc"    # list of files/folders to symlink in homedir
 
 ##########
 

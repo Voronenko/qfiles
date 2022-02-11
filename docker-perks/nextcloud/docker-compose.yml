@@ -1,0 +1,65 @@
+version: "3.7"
+services:
+  db:
+    restart: unless-stopped
+    image: postgres:13
+    networks:
+      - nextcloud
+    ports:
+      - 5432:5432
+    environment:
+    - POSTGRES_USER=SPECIFY
+    - POSTGRES_PASSWORD=SPECIFY
+    - POSTGRES_DB=postgres
+#    - POSTGRES_MULTIPLE_DATABASES=nextcloud
+    volumes:
+    - /share/Container/docker-apps/nextcloud/postgres:/var/lib/postgresql/data
+  redis:
+    image: redis:6.0.16
+    restart: unless-stopped
+    networks:
+      - nextcloud
+    volumes:
+      - /share/Container/docker-apps/nextcloud/redis:/var/lib/redis
+  nextcloud:
+    image: nextcloud:23.0.1
+    restart: unless-stopped
+    networks:
+      - nextcloud
+      - traefik-public
+    depends_on:
+      - redis
+      - db
+    ports:
+      - 8888:80 
+    labels:
+      - "traefik.enable=true"
+#      - "traefik.http.routers.heim.rule=Host(`nas.voronenko.net`)"
+#      - "traefik.http.routers.heim.entrypoints=web"
+      - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
+
+#      - "traefik.http.middlewares.traefik-auth.basicauth.users=USER:PASSWORD"
+#      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
+#      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
+
+      - "traefik.http.routers.nextcloud-secure.entrypoints=websecure"
+      - "traefik.http.routers.nextcloud-secure.rule=Host(`cloud.voronenko.net`)"
+#      - "traefik.http.routers.nextcloud-secure.middlewares=traefik-auth"
+      - "traefik.http.routers.nextcloud-secure.tls=true"
+    environment:
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD=SPECIFY
+      - POSTGRES_HOST=db
+      - NEXTCLOUD_ADMIN_USER=SPECIFY
+      - NEXTCLOUD_ADMIN_PASSWORD=SPECIFY
+      - REDIS_HOST=redis
+      - NEXTCLOUD_TRUSTED_DOMAINS=cloud.voronenko.net
+      - TRUSTED_PROXIES=172.29.8.0/8
+    volumes:
+      - /share/Container/docker-apps/nextcloud/nextcloud:/var/www/html
+      - /share/SLAVKO.P/NEXTCLOUD:/var/www/html/data
+networks:
+  nextcloud:
+  traefik-public:
+    external: true
